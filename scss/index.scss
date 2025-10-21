@@ -352,31 +352,25 @@ body {
     .section-title { margin-bottom: 1.6rem; }
 
     .about-grid {
-        display: grid;
-        grid-template-columns: 320px 1fr;
-        gap: 2.6rem;
-        align-items: start;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
     }
 
     .profile-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: linear-gradient(180deg, rgba($dark-blue,0.04), rgba($dark-blue,0.02));
         border: 1px solid rgba(255,255,255,0.03);
-        padding: 1.2rem;
+        padding: 1.8rem 2.2rem;
         border-radius: 14px;
         backdrop-filter: blur(6px);
         box-shadow: 0 8px 30px rgba(2,6,23,0.45);
         z-index: 5;
-
-        .avatar {
-            width: 100%;
-            padding-top: 100%;
-            position: relative;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 1rem;
-
-            img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-        }
+        max-width: 700px;
+        margin: 0 auto;
 
         .profile-info {
             .name { font-family: $font-secondary; font-size: 1.3rem; margin-bottom: 0.2rem; }
@@ -384,6 +378,26 @@ body {
 
             .contact-list { list-style: none; padding: 0; margin: 0; color: $text-primary; font-size: 0.9rem;
                 li { margin-bottom: 0.45rem; a { color: color.scale($accent-blue, $lightness: 18%); text-decoration: none; &:hover { text-decoration: underline; } } }
+        }
+        }
+
+        .avatar {
+            width: 220px;
+            height: 220px;
+            // border-radius: 50%;
+            overflow: hidden;
+            margin-left: 2.5rem;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                // border-radius: 50%;
+            }
         }
     }
 
@@ -407,6 +421,23 @@ body {
         }
 
         ul { margin: 0.4rem 0 0 1rem; }
+    }
+}
+
+@media (max-width: 700px) {
+    .about-section .about-grid {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .about-section .profile-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 1.2rem;
+        max-width: 98vw;
+    }
+    .about-section .profile-card .avatar {
+        margin-left: 0;
+        margin-top: 1.2rem;
     }
 }
 
@@ -589,7 +620,6 @@ body {
         transform: translateY(0);
     }
 }
-}
 .contact-pill-bar {
     position: fixed;
     bottom: 24px;
@@ -606,6 +636,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.04);
     animation: slideInRight 0.5s ease-out;
 }
+// .contact-pill-bar styles remain for now (can be removed if not needed)
 
 .contact-pill {
     position: relative;
