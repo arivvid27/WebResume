@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <!-- Add Typed.js for typing animation -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="../js/background.js" defer></script>
+    <script src="../js/index.js" defer></script>
+</head>
+<body>
+    <div class="custom-cursor"></div>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+        </ul>
+    </nav>
+    
+
+    <!-- Header with Image and Typing Effect -->
+    <header id="home" class="header-container">
+        <canvas id="background-canvas"></canvas>
+        <div class="profile-container">
+            <div class="profile-image">
+                <!-- Replace with your image -->
+                <img src="../media/profile.png" alt="Profile Picture">
+            </div>
+            <div class="header-content">
+                <h1>Hello, I'm <span class="name">Videsh Arivazhagan</span></h1>
+                <div class="type-container">
+                    I'm a <span id="typed-strings"></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Sections -->
+    <main>
+        <!-- About Section -->
+        <section id="about" class="section about-section">
+            <h2 class="section-title">About</h2>
+            <div class="about-grid">
+                <aside class="profile-card reveal">
+                    <div class="avatar">
+                        <img src="../media/profile.png" alt="Videsh Arivazhagan">
+                    </div>
+                    <div class="profile-info">
+                        <h3 class="name">Videsh Arivazhagan</h3>
+                        <p class="tagline">California based, results-driven Computer Programmer with a passion for Cyber Security.</p>
+                        <ul class="contact-list">
+                            <li>12867 Meridian Street</li>
+                            <li>Eastvale, CA 92880</li>
+                            <li><a href="mailto:videsh.arivazhagan@gmail.com">videsh.arivazhagan@gmail.com</a></li>
+                            <li><a href="https://github.com/arivvid27" target="_blank" rel="noopener">github.com/arivvid27</a></li>
+                            <li><a href="https://www.linkedin.com/in/videsh-k-ariv/" target="_blank" rel="noopener">linkedin.com/in/videsh-k-ariv</a></li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <div class="about-main">
+                    <div class="reveal">
+                        <p class="lead">Proficient in developing, testing, and maintaining software applications while also staying up-to-date with the latest Cyber Security trends and technologies.</p>
+                    </div>
+
+                    <div class="reveal experience">
+                        <h3>Experience</h3>
+
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <h4>ERSH Vanguard — Founder/President</h4>
+                                <span class="date">SEPTEMBER 2025 - PRESENT</span>
+                                <p>Founder and president of my school’s cybersecurity club. We participate in national competitions such as CyberPatriots and NCL. I also help teach Windows and parts of Linux.</p>
+                            </div>
+
+                            <div class="timeline-item">
+                                <h4>CyberPatriots — Competitor</h4>
+                                <span class="date">SEPTEMBER 2023 - SEPTEMBER 2025</span>
+                                <p>Ranked Gold Tier at top 10% in California Open Division.</p>
+                            </div>
+
+                            <div class="timeline-item">
+                                <h4>National Cyber League — Player</h4>
+                                <span class="date">FEBRUARY 2024 - APRIL 2024</span>
+                                <p>Ranked top 400 out of 4100 in individual Game. Ranked top 100 out of 450 in Team Game.</p>
+                            </div>
+
+                            <div class="timeline-item">
+                                <h4>Road2 Education Foundation, Irvine — Software Developer</h4>
+                                <span class="date">SEPTEMBER 2023 - FEBRUARY 2024</span>
+                                <p>Constructed a fully functional mobile robot prototype in 7 days. Developed and deployed a mobile app to control robots in 45 minutes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal education">
+                        <h3>Education</h3>
+                        <div class="education-grid">
+                            <div class="edu-item">
+                                <h4>Irvine High School, Irvine — High School</h4>
+                                <span class="date">AUGUST 2023 - FEBRUARY 2024</span>
+                                <p>All A’s and A+’s. Left because of housing change.</p>
+                            </div>
+
+                            <div class="edu-item">
+                                <h4>Eleanor Roosevelt High School, Eastvale — High School</h4>
+                                <span class="date">FEBRUARY 2024 - PRESENT</span>
+                                <p>GPA: 3.88</p>
+                            </div>
+
+                            <div class="edu-item">
+                                <h4>Alagappa University, Karaikudi — Cyber/Computer Forensics, Defense, Operations, and Security</h4>
+                                <span class="date">JUNE 2023 - JULY 2023</span>
+                                <p>Equivalent to Dual Enrollment in India. Took over the summer for a certificate.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal skills">
+                        <h3>Skills</h3>
+                        <div class="skill-list">
+                            <span class="skill">Python</span>
+                            <span class="skill">JavaScript</span>
+                            <span class="skill">Linux</span>
+                            <span class="skill">Networking</span>
+                            <span class="skill">Windows Admin</span>
+                            <span class="skill">Incident Response</span>
+                        </div>
+                    </div>
+
+                    <div class="reveal awards">
+                        <h3>Awards & Certifications</h3>
+                        <ul>
+                            <li>CS50X - Harvard</li>
+                            <li>CyberForward Certificate of Completion</li>
+                            <li>HEBESEC Intermediate Offensive CyberSecurity Certification</li>
+                        </ul>
+                    </div>
+
+                    <div class="reveal languages">
+                        <h3>Languages</h3>
+                        <ul>
+                            <li>English - Fluent</li>
+                            <li>Tamil - Proficient</li>
+                            <li>Spanish - Competent</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="section">
+            <h2>Experience & Education</h2>
+            <div class="section-content">
+                <div class="card-grid">
+                    <!-- Experience Cards -->
+                    <div class="card reveal">
+                        <h3>ERSH Vanguard — Founder/President</h3>
+                        <span class="date">SEPTEMBER 2025 - PRESENT</span>
+                        <p>Founder and president of my school's cybersecurity club. We participate in national competitions such as CyberPatriots and NCL.</p>
+                        <p>I also help teach Windows and parts of Linux to club members.</p>
+                        <div class="tags">
+                            <span class="tag">Leadership</span>
+                            <span class="tag">Teaching</span>
+                            <span class="tag">CyberSecurity</span>
+                        </div>
+                    </div>
+
+                    <div class="card reveal">
+                        <h3>CyberPatriots & NCL</h3>
+                        <span class="date">SEPTEMBER 2023 - PRESENT</span>
+                        <p>Ranked Gold Tier at top 10% in California Open Division for CyberPatriots.</p>
+                        <p>Ranked top 400 out of 4100 in NCL Individual Game and top 100 out of 450 in Team Game.</p>
+                        <div class="tags">
+                            <span class="tag">Competition</span>
+                            <span class="tag">Team Work</span>
+                            <span class="tag">Cyber Defense</span>
+                        </div>
+                    </div>
+
+                    <div class="card reveal">
+                        <h3>Road2 Education Foundation — Software Developer</h3>
+                        <span class="date">SEPTEMBER 2023 - FEBRUARY 2024</span>
+                        <p>Constructed a fully functional mobile robot prototype in 7 days.</p>
+                        <p>Developed and deployed a mobile app to control robots in 45 minutes.</p>
+                        <div class="tags">
+                            <span class="tag">Robotics</span>
+                            <span class="tag">Mobile Dev</span>
+                            <span class="tag">Rapid Prototyping</span>
+                        </div>
+                    </div>
+
+                    <!-- Education Cards -->
+                    <div class="card reveal">
+                        <h3>Eleanor Roosevelt High School</h3>
+                        <span class="date">FEBRUARY 2024 - PRESENT</span>
+                        <p>Current High School • GPA: 3.88</p>
+                        <div class="tags">
+                            <span class="tag">Academic Excellence</span>
+                            <span class="tag">Current</span>
+                        </div>
+                    </div>
+
+                    <div class="card reveal">
+                        <h3>Alagappa University</h3>
+                        <span class="date">JUNE 2023 - JULY 2023</span>
+                        <p>Cyber/Computer Forensics, Defense, Operations, and Security</p>
+                        <p>Equivalent to Dual Enrollment in India. Summer certificate program.</p>
+                        <div class="tags">
+                            <span class="tag">Computer Forensics</span>
+                            <span class="tag">Cyber Defense</span>
+                            <span class="tag">Security Ops</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <h2>Projects & Achievements</h2>
+            <div class="section-content">
+                <div class="card-grid">
+                    <div class="card reveal">
+                        <h3>CS50X - Harvard</h3>
+                        <p>Completed Harvard's introduction to computer science, covering algorithms, data structures, and software engineering principles.</p>
+                        <div class="tags">
+                            <span class="tag">Computer Science</span>
+                            <span class="tag">Algorithms</span>
+                            <span class="tag">Certificate</span>
+                        </div>
+                    </div>
+
+                    <div class="card reveal">
+                        <h3>CyberForward Program</h3>
+                        <p>Earned Certificate of Completion demonstrating proficiency in cybersecurity fundamentals and best practices.</p>
+                        <div class="tags">
+                            <span class="tag">Cyber Security</span>
+                            <span class="tag">Certificate</span>
+                        </div>
+                    </div>
+
+                    <div class="card reveal">
+                        <h3>HEBESEC Certification</h3>
+                        <p>Achieved Intermediate Offensive CyberSecurity Certification, demonstrating practical security testing skills.</p>
+                        <div class="tags">
+                            <span class="tag">Offensive Security</span>
+                            <span class="tag">Certification</span>
+                            <span class="tag">Practical</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <!-- <section id="contact" class="section">
+            <h2>Contact Me</h2>
+            <div class="section-content">
+                <form class="contact-form reveal">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit">Send Message</button>
+                </form>
+
+                <div class="social-links reveal">
+                    <a href="https://github.com/arivvid27" target="_blank" rel="noopener">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/videsh-k-ariv/" target="_blank" rel="noopener">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        LinkedIn
+                    </a>
+                    <a href="mailto:videsh.arivazhagan@gmail.com">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        Email
+                    </a>
+                </div>
+            </div>
+        </section> -->
+    </main>
+</body>
+</html>
