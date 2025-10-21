@@ -153,18 +153,14 @@ body {
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  text-align: center;
 }
 
 .profile-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  max-width: 800px;
+  gap: 3rem;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
 }
 
 .profile-image {
@@ -200,15 +196,11 @@ body {
 
 .section {
   min-height: 100vh;
-  padding: 6rem 1rem 2rem;
-  max-width: 1000px;
+  padding: 6rem 2rem 2rem;
+  max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 .section h2 {
-  text-align: center;
   font-family: "Montserrat", sans-serif;
   font-size: 2.5rem;
   margin-bottom: 2rem;
@@ -442,12 +434,9 @@ body {
 /* Card Grid Layout */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-  width: 100%;
-  max-width: 1000px;
-  padding: 0 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 .card-grid .card:nth-child(1) {
   animation-delay: 0.1s;
@@ -479,15 +468,14 @@ body {
 .card-grid .card:nth-child(10) {
   animation-delay: 1s;
 }
-@media (min-width: 1000px) {
+@media (min-width: 1200px) {
   .card-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .card-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 2rem;
     margin-top: 1.5rem;
   }
 }
@@ -736,5 +724,3 @@ body {
     transform: translateY(0);
   }
 }
-
-/*# sourceMappingURL=index.css.map */
