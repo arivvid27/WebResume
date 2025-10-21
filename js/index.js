@@ -12,10 +12,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 document.addEventListener('DOMContentLoaded', function() {
     const typed = new Typed('#typed-strings', {
         strings: [
-            'Cybersecurity Professional',
+            'Cybersecurity Enthusiast',
             'Software Developer',
             'System Administrator',
-            'Network Engineer'
+            'High School Student',
+            'President and Founder',
+            ''
+
         ],
         typeSpeed: 50,
         backSpeed: 30,
@@ -31,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('in-view');
-                // if the element has children with reveal-child, stagger them
                 const children = entry.target.querySelectorAll('.reveal-child');
                 if (children.length) {
                     children.forEach((c, i) => {
@@ -39,11 +41,44 @@ document.addEventListener('DOMContentLoaded', function() {
                         c.classList.add('in-view');
                     });
                 }
-                // unobserve once in view to avoid repeated toggles
                 observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.12 });
 
     reveals.forEach(r => observer.observe(r));
+
+    // Timeline interaction
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const timelineObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                timelineObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    timelineItems.forEach(item => {
+        timelineObserver.observe(item);
+        
+        // Click to expand/collapse
+        const content = item.querySelector('.timeline-content');
+        const dot = item.querySelector('.timeline-dot');
+        
+        const toggleItem = () => {
+            // Close all other items
+            timelineItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
+            });
+            
+            // Toggle current item
+            item.classList.toggle('active');
+        };
+        
+        content.addEventListener('click', toggleItem);
+        dot.addEventListener('click', toggleItem);
+    });
 });
