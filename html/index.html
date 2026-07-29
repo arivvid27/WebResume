@@ -9,10 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="./index.css">
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js" defer></script>
+    <script src="./globe.js" defer></script>
     <script src="./index.js" defer></script>
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
     <header class="site-header">
         <div class="wrap nav-inner">
@@ -54,22 +57,56 @@
 
         <div class="wrap"><div class="divider reveal"></div></div>
 
-        <section id="about" class="section wrap">
-            <div class="section-head reveal">
-                <span class="section-index label-sm">01</span>
-                <h2 class="headline-sm">About</h2>
-            </div>
-            <div class="card about-card reveal">
-                <img class="avatar" src="profile.png" alt="Portrait of Videsh Arivazhagan">
-                <div class="about-info">
-                    <h3 class="headline-sm">Videsh Arivazhagan</h3>
-                    <p class="tagline body-md">California based, results-driven Computer Programmer with a passion for Cyber Security.</p>
-                    <ul class="contact-list body-sm">
-                        <li>Eastvale, CA 92880</li>
-                        <li><a href="mailto:videsh.arivazhagan@gmail.com">videsh.arivazhagan@gmail.com</a></li>
-                        <li><a href="https://github.com/arivvid27" target="_blank" rel="noopener">github.com/arivvid27</a></li>
-                        <li><a href="https://www.linkedin.com/in/videsh-k-ariv/" target="_blank" rel="noopener">linkedin.com/in/videsh-k-ariv</a></li>
-                    </ul>
+        <section id="about" class="globe-section">
+            <div class="globe-sticky">
+                <div class="wrap globe-inner">
+                    <div class="globe-canvas-wrap">
+                        <canvas id="globe-canvas" aria-hidden="true"></canvas>
+                    </div>
+
+                    <div class="globe-caption-wrap">
+                        <span class="section-index label-sm">01</span>
+
+                    <div class="globe-caption">
+                        <div class="globe-stage" data-stage="0">
+                            <h2 class="headline-sm">About</h2>
+                            <p class="body-lg text-secondary">Somewhere on a small, mostly-blue planet.</p>
+                        </div>
+
+                        <div class="globe-stage" data-stage="1">
+                            <p class="caption globe-breadcrumb">Earth &rarr; North America</p>
+                            <h2 class="headline-md">United States</h2>
+                            <p class="body-lg text-secondary">Zooming toward the west coast.</p>
+                        </div>
+
+                        <div class="globe-stage" data-stage="2">
+                            <p class="caption globe-breadcrumb">North America &rarr; California</p>
+                            <h2 class="headline-md">Southern California</h2>
+                            <p class="body-lg text-secondary">Riverside County, just east of Los Angeles.</p>
+                        </div>
+
+                        <div class="globe-stage globe-stage-final" data-stage="3">
+                            <div class="card about-card">
+                                <img class="avatar" src="profile.png" alt="Portrait of Videsh Arivazhagan">
+                                <div class="about-info">
+                                    <h3 class="headline-sm">Videsh Arivazhagan</h3>
+                                    <p class="tagline body-md">California based, results-driven Computer Programmer with a passion for Cyber Security.</p>
+                                    <div class="chip-list">
+                                        <span class="chip">Eastvale, CA</span>
+                                        <span class="chip">Riverside County</span>
+                                        <span class="chip">Cybersecurity</span>
+                                    </div>
+                                    <ul class="contact-list body-sm">
+                                        <li>Eastvale, CA 92880</li>
+                                        <li><a href="mailto:videsh.arivazhagan@gmail.com">videsh.arivazhagan@gmail.com</a></li>
+                                        <li><a href="https://github.com/arivvid27" target="_blank" rel="noopener">github.com/arivvid27</a></li>
+                                        <li><a href="https://www.linkedin.com/in/videsh-k-ariv/" target="_blank" rel="noopener">linkedin.com/in/videsh-k-ariv</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
         </section>

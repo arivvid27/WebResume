@@ -635,6 +635,158 @@ button {
 }
 
 // ---------------------------------------------------------------------------
+// Scroll progress bar
+// ---------------------------------------------------------------------------
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--color-accent);
+  z-index: 300;
+  pointer-events: none;
+}
+
+// ---------------------------------------------------------------------------
+// Word-reveal headings
+// ---------------------------------------------------------------------------
+.word-reveal {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.word-reveal-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform var(--duration-slow) var(--ease);
+}
+
+.reveal.in-view .word-reveal-inner { transform: translateY(0); }
+
+@for $i from 1 through 8 {
+  .word-reveal:nth-child(#{$i}) .word-reveal-inner {
+    transition-delay: #{($i - 1) * 60}ms;
+  }
+}
+
+.section-index {
+  display: inline-block;
+  will-change: transform;
+}
+
+// ---------------------------------------------------------------------------
+// Globe scrollytelling (About section)
+// ---------------------------------------------------------------------------
+.globe-section {
+  position: relative;
+  height: 340vh;
+
+  &.globe-static { height: auto; }
+}
+
+.globe-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  .globe-static & {
+    position: static;
+    height: auto;
+    padding-block: var(--space-xl);
+  }
+}
+
+.globe-inner {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  align-items: center;
+  gap: var(--space-xl);
+  width: 100%;
+
+  .globe-static & { grid-template-columns: 1fr; }
+}
+
+.globe-canvas-wrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  max-width: 520px;
+  width: 100%;
+  justify-self: center;
+
+  canvas {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .globe-static & { display: none; }
+}
+
+.globe-caption-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.globe-caption {
+  position: relative;
+  min-height: 320px;
+}
+
+.globe-stage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity var(--duration-slow) var(--ease), transform var(--duration-slow) var(--ease);
+  pointer-events: none;
+
+  &.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .globe-static & {
+    position: static;
+    display: none;
+  }
+
+  .globe-static &.globe-stage-final {
+    display: block;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+.globe-breadcrumb {
+  color: var(--color-tertiary);
+  margin-bottom: var(--space-xs);
+}
+
+@media (max-width: 860px) {
+  .globe-section { height: 280vh; }
+  .globe-inner { grid-template-columns: 1fr; }
+  .globe-canvas-wrap { max-width: 320px; }
+}
+
+// ---------------------------------------------------------------------------
+// Card tilt (JS-driven inline transform on pointer:fine devices)
+// ---------------------------------------------------------------------------
+.card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+// ---------------------------------------------------------------------------
 // Reveal-on-scroll
 // ---------------------------------------------------------------------------
 .reveal {
