@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "sass scss/index.scss html/index.css --no-source-map --style=expanded",
+    "watch": "sass --watch scss/index.scss:html/index.css --no-source-map",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
