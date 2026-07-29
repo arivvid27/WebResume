@@ -1,27 +1,37 @@
 /*
- * Scroll-driven dot-matrix globe for the About section.
+ * Full-page scroll-driven dot-matrix globe.
+ * The canvas is a fixed, full-viewport background that persists behind the
+ * entire site. Its camera position is a continuous function of whole-page
+ * scroll progress, passing through waypoints measured from each section's
+ * real position on the page (so it stays in sync regardless of content
+ * length). The About section additionally tracks its own local progress to
+ * drive its four caption stages (Earth -> North America -> California ->
+ * Eastvale, CA -> profile card), matching the address already shown in the
+ * About card.
+ *
  * Continents are procedurally generated (Fibonacci sphere sampling tested
  * against hand-placed lat/lng "landmass" blobs) so no external map texture
- * is needed. Camera flies from a full-earth view down to Eastvale, CA —
- * the address already shown in the About card below — as the user scrolls
- * through the pinned section.
+ * is needed.
  */
 (function () {
     'use strict';
 
     const canvas = document.getElementById('globe-canvas');
-    const section = document.getElementById('about');
-    if (!canvas || !section) return;
+    const aboutSection = document.getElementById('about');
+    if (!canvas) return;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hasThree = typeof window.THREE !== 'undefined';
 
     if (prefersReducedMotion || !hasThree) {
-        section.classList.add('globe-static');
-        const finalStage = section.querySelector('.globe-stage-final');
-        if (finalStage) finalStage.classList.add('is-active');
+        if (aboutSection) {
+            const finalStage = aboutSection.querySelector('.globe-stage-final');
+            if (finalStage) finalStage.classList.add('is-active');
+        }
         return;
     }
+
+    document.documentElement.classList.add('has-globe');
 
     const THREE = window.THREE;
     const RADIUS = 2.4;
@@ -136,7 +146,7 @@
 
     // ---- scene ----
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
     renderer.setClearColor(0x000000, 0);
 
@@ -185,20 +195,55 @@
     ringSprite.position.copy(highlightPos);
     globeGroup.add(ringSprite);
 
-    // ---- camera keyframes: full earth -> North America -> California -> Eastvale ----
-    const KEYFRAMES = [
-        { p: 0.0, radius: 9.2, lat: 15, lng: -40 },
-        { p: 0.18, radius: 5.6, lat: 40, lng: -95 },
-        { p: 0.48, radius: 3.1, lat: 36, lng: -118 },
-        { p: 0.85, radius: 1.6, lat: HIGHLIGHT.lat, lng: HIGHLIGHT.lng },
-        { p: 1.0, radius: 1.5, lat: HIGHLIGHT.lat, lng: HIGHLIGHT.lng }
-    ];
+    // ---- waypoints: map real section positions to whole-page scroll fractions ----
+    const SECTION_IDS = ['home', 'about', 'experience', 'projects', 'skills', 'contact'];
+    let waypoints = {};
+
+    function computeWaypoints() {
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        waypoints = {};
+        SECTION_IDS.forEach(function (id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const top = el.getBoundingClientRect().top + window.scrollY;
+            const bottom = top + el.offsetHeight;
+            waypoints[id] = {
+                start: total > 0 ? Math.max(0, top / total) : 0,
+                end: total > 0 ? Math.min(1, bottom / total) : 1
+            };
+        });
+    }
+
+    // ---- camera keyframes built from waypoints: one continuous journey ----
+    let KEYFRAMES = [];
+    function buildKeyframes() {
+        const about = waypoints.about || { start: 0.08, end: 0.32 };
+        const experience = waypoints.experience || { start: 0.32, end: 0.55 };
+        const projects = waypoints.projects || { start: 0.55, end: 0.72 };
+        const skills = waypoints.skills || { start: 0.72, end: 0.88 };
+        const contact = waypoints.contact || { start: 0.88, end: 1 };
+        const aboutSpan = about.end - about.start || 0.01;
+
+        KEYFRAMES = [
+            { p: 0, radius: 9.4, lat: 15, lng: -40, opacity: 1 },
+            { p: about.start, radius: 9.2, lat: 15, lng: -40, opacity: 1 },
+            { p: about.start + aboutSpan * 0.35, radius: 5.6, lat: 40, lng: -95, opacity: 1 },
+            { p: about.start + aboutSpan * 0.68, radius: 3.1, lat: 36, lng: -118, opacity: 0.95 },
+            { p: about.end - aboutSpan * 0.05, radius: 1.55, lat: HIGHLIGHT.lat, lng: HIGHLIGHT.lng, opacity: 0.9 },
+            { p: about.end, radius: 2.2, lat: HIGHLIGHT.lat, lng: HIGHLIGHT.lng, opacity: 0.55 },
+            { p: experience.end, radius: 3.4, lat: HIGHLIGHT.lat + 5, lng: HIGHLIGHT.lng - 8, opacity: 0.4 },
+            { p: projects.end, radius: 4.2, lat: 28, lng: -100, opacity: 0.4 },
+            { p: skills.end, radius: 7.6, lat: 18, lng: -55, opacity: 0.55 },
+            { p: contact.start + (contact.end - contact.start) * 0.45, radius: 3.0, lat: HIGHLIGHT.lat, lng: HIGHLIGHT.lng, opacity: 0.85 },
+            { p: 1, radius: 1.7, lat: HIGHLIGHT.lat, lng: HIGHLIGHT.lng, opacity: 1 }
+        ];
+    }
 
     function easeInOutCubic(t) {
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
-    function getCameraFrame(progress) {
+    function getFrame(progress) {
         let a = KEYFRAMES[0];
         let b = KEYFRAMES[KEYFRAMES.length - 1];
         for (let i = 0; i < KEYFRAMES.length - 1; i++) {
@@ -215,15 +260,20 @@
         return {
             lat: a.lat + (b.lat - a.lat) * t,
             lng: a.lng + (b.lng - a.lng) * t,
-            radius: a.radius + (b.radius - a.radius) * t
+            radius: a.radius + (b.radius - a.radius) * t,
+            opacity: a.opacity + (b.opacity - a.opacity) * t
         };
     }
 
-    // ---- stage captions ----
-    const stages = section.querySelectorAll('.globe-stage');
+    // ---- About section's own local progress drives its four caption stages ----
+    const stages = aboutSection ? aboutSection.querySelectorAll('.globe-stage') : [];
     let lastStage = -1;
-    function updateStage(progress) {
-        const idx = progress >= 0.85 ? 3 : progress >= 0.48 ? 2 : progress >= 0.18 ? 1 : 0;
+    function updateAboutStage() {
+        if (!aboutSection) return;
+        const rect = aboutSection.getBoundingClientRect();
+        const total = rect.height - window.innerHeight;
+        const local = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : (rect.top < 0 ? 1 : 0);
+        const idx = local >= 0.85 ? 3 : local >= 0.48 ? 2 : local >= 0.18 ? 1 : 0;
         if (idx !== lastStage) {
             stages.forEach(function (s) {
                 s.classList.toggle('is-active', Number(s.dataset.stage) === idx);
@@ -232,67 +282,74 @@
         }
     }
 
-    function computeProgress() {
-        const rect = section.getBoundingClientRect();
-        const total = rect.height - window.innerHeight;
-        if (total <= 0) return 1;
-        return Math.min(1, Math.max(0, -rect.top / total));
+    function globalProgress() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
     }
 
     function resize() {
-        const wrap = canvas.parentElement;
-        const w = Math.max(1, wrap.clientWidth);
-        const h = Math.max(1, wrap.clientHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-        renderer.setSize(w, h, false);
-        camera.aspect = w / h;
+        renderer.setSize(window.innerWidth, window.innerHeight, false);
+        camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
+        computeWaypoints();
+        buildKeyframes();
     }
     window.addEventListener('resize', resize);
-    resize();
 
-    let running = false;
-    function renderLoop() {
+    let running = document.visibilityState !== 'hidden';
+    document.addEventListener('visibilitychange', function () {
+        const wasRunning = running;
+        running = document.visibilityState === 'visible';
+        if (running && !wasRunning) requestAnimationFrame(loop);
+    });
+
+    function loop() {
         if (!running) return;
 
-        const progress = computeProgress();
-        updateStage(progress);
+        const progress = globalProgress();
+        updateAboutStage();
 
-        let frame = getCameraFrame(progress);
-        if (progress < 0.02) {
+        let frame = getFrame(progress);
+        if (progress < 0.01) {
             const drift = Math.sin(performance.now() * 0.00012) * 10;
-            frame = getCameraFrame(0);
+            frame = getFrame(0);
             frame.lng += drift;
         }
 
         camera.position.copy(toVector3(frame.lat, frame.lng, frame.radius));
         camera.lookAt(0, 0, 0);
+        canvas.style.opacity = frame.opacity.toFixed(3);
 
         const pulse = 1 + Math.sin(performance.now() * 0.004) * 0.18;
         ringSprite.scale.set(0.34 * pulse, 0.34 * pulse, 1);
-        pinSprite.scale.set(0.18 + progress * 0.05, 0.18 + progress * 0.05, 1);
+        const proximity = Math.max(0, Math.min(1, 1 - (frame.radius - 1.4) / 8));
+        pinSprite.scale.set(0.14 + proximity * 0.1, 0.14 + proximity * 0.1, 1);
 
         renderer.render(scene, camera);
-        requestAnimationFrame(renderLoop);
+        requestAnimationFrame(loop);
     }
 
-    // Render one static frame immediately so the globe isn't blank before scroll/IO fires.
-    camera.position.copy(toVector3(KEYFRAMES[0].lat, KEYFRAMES[0].lng, KEYFRAMES[0].radius));
+    computeWaypoints();
+    buildKeyframes();
+    resize();
+
+    // Render one static frame immediately so the backdrop isn't blank on first paint.
+    const first = getFrame(0);
+    camera.position.copy(toVector3(first.lat, first.lng, first.radius));
     camera.lookAt(0, 0, 0);
+    canvas.style.opacity = String(first.opacity);
     renderer.render(scene, camera);
 
-    const io = new IntersectionObserver(
-        function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting && !running) {
-                    running = true;
-                    requestAnimationFrame(renderLoop);
-                } else if (!entry.isIntersecting) {
-                    running = false;
-                }
-            });
-        },
-        { threshold: 0 }
-    );
-    io.observe(section);
+    // Fonts/late layout shifts can move section offsets after first measurement.
+    window.addEventListener('load', function () {
+        computeWaypoints();
+        buildKeyframes();
+    });
+    setTimeout(function () {
+        computeWaypoints();
+        buildKeyframes();
+    }, 400);
+
+    requestAnimationFrame(loop);
 })();
